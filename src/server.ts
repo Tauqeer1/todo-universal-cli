@@ -5,12 +5,22 @@ import './polyfills.ts';
 import './__2.1.1.workaround.ts'; // temporary until 2.1.1 things are patched in Core
 import * as path from 'path';
 import * as express from 'express';
+import * as mongoose from 'mongoose';
+// (<any>mongoose).Promise = require('bluebird'); //Override mongoose promise library
 import * as compression from 'compression';
+import * as bodyParser from 'body-parser';
 import { createEngine } from 'angular2-express-engine';
 import { enableProdMode } from '@angular/core';
 import { AppModule } from './app/app.node.module';
 import { environment } from './environments/environment';
+import { credentials } from './credentials';
 import { routes } from './server.routes';
+
+mongoose.connect(credentials.mongo.uri, credentials.mongo.options);
+mongoose.connection.on('error', (err) => {
+  console.log(`MongoDB connection error: ${err}`);
+  process.exit(-1);
+})
 
 // App
 
@@ -35,6 +45,8 @@ app.set('view engine', 'html');
 /**
  * Enable compression
  */
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(compression());
 
 /**
@@ -46,6 +58,8 @@ app.use('/', express.static(path.join(ROOT, 'client'), {index: false}));
  * place your api routes here
  */
 // app.use('/api', api);
+app.use('/api/users', require('./api/user'));
+app.use('/api/auth', require('./auth'))
 
 /**
  * bootstrap universal app
