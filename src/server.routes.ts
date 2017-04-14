@@ -10,5 +10,7 @@
  * ];
  **/
 export const routes: string[] = [
-
+    'login',
+    'register',
+    'home'
 ];

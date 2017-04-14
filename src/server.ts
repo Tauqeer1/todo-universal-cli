@@ -6,17 +6,20 @@ import './__2.1.1.workaround.ts'; // temporary until 2.1.1 things are patched in
 import * as path from 'path';
 import * as express from 'express';
 import * as mongoose from 'mongoose';
-// (<any>mongoose).Promise = require('bluebird'); //Override mongoose promise library
-import * as compression from 'compression';
 import * as bodyParser from 'body-parser';
+import * as morgan from 'morgan';
+import * as compression from 'compression';
 import { createEngine } from 'angular2-express-engine';
 import { enableProdMode } from '@angular/core';
 import { AppModule } from './app/app.node.module';
 import { environment } from './environments/environment';
-import { credentials } from './credentials';
+import config  from './server/config';
 import { routes } from './server.routes';
+import { authRoutes } from './server/auth';
+import { userRoutes } from './server/api/user';
+import { todoRoutes } from './server/api/todo';
 
-mongoose.connect(credentials.mongo.uri, credentials.mongo.options);
+mongoose.connect(config.mongo.uri, config.mongo.options);
 mongoose.connection.on('error', (err) => {
   console.log(`MongoDB connection error: ${err}`);
   process.exit(-1);
@@ -45,9 +48,10 @@ app.set('view engine', 'html');
 /**
  * Enable compression
  */
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
 app.use(compression());
+app.use(bodyParser.json({limit: '20mb'}));
+app.use(bodyParser.urlencoded({limit: '20mb', extended: false}));
+app.use(morgan('dev'));
 
 /**
  * serve static files
@@ -58,8 +62,12 @@ app.use('/', express.static(path.join(ROOT, 'client'), {index: false}));
  * place your api routes here
  */
 // app.use('/api', api);
-app.use('/api/users', require('./api/user'));
-app.use('/api/auth', require('./auth'))
+// app.use('/api/users', require('./server/api/user'));
+app.use('/api/users', userRoutes);
+app.use('/api/todos', todoRoutes);
+app.use('/api/auth', authRoutes);
+// app.use('/api/todos', require('./server/api/todo'));
+// app.use('/api/auth', require('./server/auth'));
 
 /**
  * bootstrap universal app

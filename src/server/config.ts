@@ -1,4 +1,4 @@
-let index = {
+let config = {
   mongo: {
     uri: 'mongodb://localhost:27017/todo',
     options: {
@@ -10,4 +10,4 @@ let index = {
   salt: 'DJEW*324KNAScsafAwe987y2e@#RWoihwefn98!',
 };
 
-export let credentials = index;
+export default config;
