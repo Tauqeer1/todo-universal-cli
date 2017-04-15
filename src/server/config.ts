@@ -1,6 +1,6 @@
 let config = {
   mongo: {
-    uri: 'mongodb://localhost:27017/todo',
+    uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/todo',
     options: {
       db: {
         safe: true
