@@ -19,7 +19,7 @@ import { authRoutes } from './server/auth';
 import { userRoutes } from './server/api/user';
 import { todoRoutes } from './server/api/todo';
 
-mongoose.connect(config.mongo.uri, config.mongo.options);
+mongoose.connect(config.mongoURL);
 mongoose.connection.on('error', (err) => {
   console.log(`MongoDB connection error: ${err}`);
   process.exit(-1);
