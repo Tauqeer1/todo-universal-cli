@@ -9,14 +9,16 @@ export class TodoService {
 
     }
 
-    addTodo() {
+    addTodo(todo: Object) {
+        console.log('todo', todo);
+        return this.http.post('/api/todos/', todo);
 
     }
     updateTodo() {
 
     }
-    deleteTodo() {
-
+    deleteTodo(id: string) {
+        return this.http.delete('/api/todos/'+ id);
     }
     getAllTodo() {
         return this.http.get('/api/todos');

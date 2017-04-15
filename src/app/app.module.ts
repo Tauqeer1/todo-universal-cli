@@ -7,6 +7,7 @@ import { AppComponent } from './index';
 
 import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
+import { TodoService } from './services/todo.service';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -29,7 +30,8 @@ import { HomeComponent } from './home/home.component';
     ],
     providers: [
         UserService,
-        AuthService
+        AuthService,
+        TodoService
     ]
 })
 export class AppModule {
