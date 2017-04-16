@@ -24,9 +24,9 @@ import { HomeComponent } from './home/home.component';
         HomeComponent
     ],
     imports: [
-        UniversalModule,
         FormsModule,
-        RouterModule.forRoot(appRoutes)
+        RouterModule.forRoot(appRoutes),
+        UniversalModule
     ],
     providers: [
         UserService,

@@ -514,9 +514,9 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_11__home_home_component__["a" /* HomeComponent */]
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_angular2_universal__["UniversalModule"],
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
-                __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_4__routes_app_route__["a" /* appRoutes */])
+                __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_4__routes_app_route__["a" /* appRoutes */]),
+                __WEBPACK_IMPORTED_MODULE_1_angular2_universal__["UniversalModule"]
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_6__services_user_service__["a" /* UserService */],
