@@ -18,7 +18,6 @@ export class HomeComponent {
     }
     addTodo() {
         this.loading = true;
-        console.log('this.todo', this.todo);
         if (!this.todo) {
             return;
         }
@@ -26,14 +25,12 @@ export class HomeComponent {
             .map(res => res.json())
             .subscribe(
             response => {
-                console.log('response', response);
                 if (response.success) {
                     this.todo = {};
                     this.loading = false;
                     this.getAllTodos();
                 }
                 else {
-                    console.log('response', response);
                     this.error = response.success;
                     this.errorMessage = response.data;
                     this.loading = false;
@@ -46,11 +43,10 @@ export class HomeComponent {
             );
     }
     deleteTodo(id: string) {
-        console.log('deleteTodo', id);
         this.todoService.deleteTodo(id)
             .map(res => res.json())
             .subscribe(res => {
-                if(res.success) {
+                if (res.success) {
                     this.getAllTodos();
                 }
             })
@@ -58,11 +54,16 @@ export class HomeComponent {
     updateTodo() {
         console.log('updateTodo');
     }
+
     getAllTodos() {
+        console.log('get all todos');
         this.todoService.getAllTodo()
             .map(res => res.json())
             .subscribe(response => {
+                console.log('response', response);
                 this.todos = response.data;
+            }, err => {
+                console.log('err', err);
             })
     }
 }

@@ -14,7 +14,9 @@ export class LoginComponent {
     loading = false;
     error: boolean;
     errorMessage: string = ''
-    constructor(private auth: AuthService, private router: Router) { }
+    constructor(private auth: AuthService, private router: Router) {
+        console.log('Login Component');
+     }
 
     login() {
         this.loading = true;
@@ -22,7 +24,9 @@ export class LoginComponent {
             .map(res => res.json())
             .subscribe(res => {
                 this.loading = false;
-                if (res.success) {
+                if (res.success && res.data.token) {
+                    console.log('res', res.data);
+                    this.auth.userObject = res.data; 
                     this.router.navigate(['/home']);
 
                 }

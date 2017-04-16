@@ -4,7 +4,7 @@ import * as crypto from 'crypto';
 export function index(req, res) {
     Todo.find().sort('-date')
         .exec((err, todos) => {
-            if(err){
+            if (err) {
                 return res.json({ success: false, data: null, error: err });
             }
             else {
@@ -14,7 +14,7 @@ export function index(req, res) {
 }
 // Get single
 export function show(req, res) {
-    
+
 }
 // Post/Create
 export function create(req, res) {
@@ -34,11 +34,11 @@ export function update(req, res) {
 // Delete
 export function destroy(req, res) {
     console.log('req.params.id', req.params.id);
-    Todo.remove({_id: req.params.id})
+    Todo.remove({ _id: req.params.id })
         .exec((err, todo) => {
-            if(err) {
-                return res.json({success: false, data: 'Contact support', err: err});
+            if (err) {
+                return res.json({ success: false, data: 'Contact support', err: err });
             }
-            return res.json({success: true, data: todo, err: null});
+            return res.json({ success: true, data: todo, err: null });
         })
 }

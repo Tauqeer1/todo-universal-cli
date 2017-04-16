@@ -1,11 +1,11 @@
 webpackJsonp([0,3],{
 
-/***/ 318:
+/***/ 319:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_todo_service__ = __webpack_require__(322);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_todo_service__ = __webpack_require__(323);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return HomeComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -30,21 +30,18 @@ var HomeComponent = (function () {
     HomeComponent.prototype.addTodo = function () {
         var _this = this;
         this.loading = true;
-        console.log('this.todo', this.todo);
         if (!this.todo) {
             return;
         }
         this.todoService.addTodo(this.todo)
             .map(function (res) { return res.json(); })
             .subscribe(function (response) {
-            console.log('response', response);
             if (response.success) {
                 _this.todo = {};
                 _this.loading = false;
                 _this.getAllTodos();
             }
             else {
-                console.log('response', response);
                 _this.error = response.success;
                 _this.errorMessage = response.data;
                 _this.loading = false;
@@ -56,7 +53,6 @@ var HomeComponent = (function () {
     };
     HomeComponent.prototype.deleteTodo = function (id) {
         var _this = this;
-        console.log('deleteTodo', id);
         this.todoService.deleteTodo(id)
             .map(function (res) { return res.json(); })
             .subscribe(function (res) {
@@ -70,10 +66,14 @@ var HomeComponent = (function () {
     };
     HomeComponent.prototype.getAllTodos = function () {
         var _this = this;
+        console.log('get all todos');
         this.todoService.getAllTodo()
             .map(function (res) { return res.json(); })
             .subscribe(function (response) {
+            console.log('response', response);
             _this.todos = response.data;
+        }, function (err) {
+            console.log('err', err);
         });
     };
     HomeComponent = __decorate([
@@ -90,14 +90,14 @@ var HomeComponent = (function () {
 
 /***/ },
 
-/***/ 319:
+/***/ 320:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_auth_service__ = __webpack_require__(321);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__(363);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_auth_service__ = __webpack_require__(322);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__(225);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return LoginComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -120,6 +120,7 @@ var LoginComponent = (function () {
         this.user = {};
         this.loading = false;
         this.errorMessage = '';
+        console.log('Login Component');
     }
     LoginComponent.prototype.login = function () {
         var _this = this;
@@ -128,7 +129,9 @@ var LoginComponent = (function () {
             .map(function (res) { return res.json(); })
             .subscribe(function (res) {
             _this.loading = false;
-            if (res.success) {
+            if (res.success && res.data.token) {
+                console.log('res', res.data);
+                _this.auth.userObject = res.data;
                 _this.router.navigate(['/home']);
             }
             else {
@@ -155,15 +158,15 @@ var LoginComponent = (function () {
 
 /***/ },
 
-/***/ 320:
+/***/ 321:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(363);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(225);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_user_service__ = __webpack_require__(323);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_user_service__ = __webpack_require__(324);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return RegisterComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -222,12 +225,14 @@ var RegisterComponent = (function () {
 
 /***/ },
 
-/***/ 321:
+/***/ 322:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(129);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(225);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return AuthService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -240,12 +245,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var AuthService = (function () {
     function AuthService(http) {
         this.http = http;
     }
+    Object.defineProperty(AuthService.prototype, "userObject", {
+        get: function () {
+            return this.user;
+        },
+        set: function (user) {
+            console.log('user', user);
+            localStorage.setItem('user', JSON.stringify(user));
+            this.user = user;
+        },
+        enumerable: true,
+        configurable: true
+    });
     AuthService.prototype.login = function (email, password) {
         return this.http.post('/api/auth', { email: email, password: password });
+        /*.map((res: Response) => {
+            let user = res.json();
+            if(user && user.token) {
+                localStorage.setItem('user', JSON.stringify(user));
+                this.user = user;
+                return user;
+            }
+        })*/
     };
     AuthService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(), 
@@ -258,7 +284,7 @@ var AuthService = (function () {
 
 /***/ },
 
-/***/ 322:
+/***/ 323:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -303,7 +329,7 @@ var TodoService = (function () {
 
 /***/ },
 
-/***/ 323:
+/***/ 324:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -363,7 +389,7 @@ webpackEmptyContext.id = 377;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__2_1_1_workaround_ts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__2_1_1_workaround_ts__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(491);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angular2_universal__ = __webpack_require__(325);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angular2_universal__ = __webpack_require__(326);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angular2_universal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_angular2_universal__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_app_browser_module__ = __webpack_require__(486);
 
@@ -465,18 +491,18 @@ var AppComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_universal__ = __webpack_require__(325);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_universal__ = __webpack_require__(326);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_universal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular2_universal__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(452);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(199);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__routes_app_route__ = __webpack_require__(490);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__index__ = __webpack_require__(489);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_user_service__ = __webpack_require__(323);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_auth_service__ = __webpack_require__(321);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_todo_service__ = __webpack_require__(322);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__login_login_component__ = __webpack_require__(319);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__register_register_component__ = __webpack_require__(320);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__home_home_component__ = __webpack_require__(318);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_user_service__ = __webpack_require__(324);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_auth_service__ = __webpack_require__(322);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_todo_service__ = __webpack_require__(323);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__login_login_component__ = __webpack_require__(320);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__register_register_component__ = __webpack_require__(321);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__home_home_component__ = __webpack_require__(319);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -547,9 +573,9 @@ var AppModule = (function () {
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__login_login_component__ = __webpack_require__(319);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__register_register_component__ = __webpack_require__(320);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home_component__ = __webpack_require__(318);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__login_login_component__ = __webpack_require__(320);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__register_register_component__ = __webpack_require__(321);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home_component__ = __webpack_require__(319);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return appRoutes; });
 
 
@@ -676,7 +702,7 @@ module.exports = "<router-outlet></router-outlet>\n"
 /***/ 659:
 /***/ function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n    <div class=\"col-sm-8 col-sm-offset-2\">\r\n        <div class=\"col-md-6 col-md-offset-3\">\r\n            <h2>Todo</h2>\r\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && addTodo()\" #f=\"ngForm\" novalidate>\r\n                <div class=\"form-group\">\r\n                    <label for=\"email\">Add Todo</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"todo\" [(ngModel)]=\"todo.text\" #text=\"ngModel\" required />\r\n                    <!--<div *ngIf=\"f.submitted && !text.valid\" class=\"help-block\">Todo is required</div>-->\r\n                </div>\r\n                <div *ngIf=\"!error\" class=\"help-block\">{{errorMessage}}</div>\r\n                <div class=\"form-group\">\r\n                    <button [disabled]=\"loading\" class=\"btn btn-primary\">Add</button>\r\n                </div>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>\r\n<ul>\r\n    <li *ngFor=\"let todo of todos\">\r\n        {{todo.text}} \r\n        <button class=\"btn btn-xs btn-primary\" (click)=\"updateTodo()\">Update</button>\r\n        <button class=\"btn btn-xs btn-danger\" (click)=\"deleteTodo(todo._id)\">Delete</button>\r\n    </li>\r\n</ul>"
+module.exports = "<div class=\"container\">\r\n    <div class=\"col-sm-8 col-sm-offset-2\">\r\n        <div class=\"col-md-6 col-md-offset-3\">\r\n            <h2>Todo</h2>\r\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && addTodo()\" #f=\"ngForm\" novalidate>\r\n                <div class=\"form-group\">\r\n                    <label for=\"email\">Add Todo</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"todo\" [(ngModel)]=\"todo.text\" #text=\"ngModel\" required />\r\n                    <!--<div *ngIf=\"f.submitted && !text.valid\" class=\"help-block\">Todo is required</div>-->\r\n                </div>\r\n                <div *ngIf=\"!error\" class=\"help-block\">{{errorMessage}}</div>\r\n                <div class=\"form-group\">\r\n                    <button [disabled]=\"loading\" class=\"btn btn-primary\">Add</button>\r\n                </div>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>\r\n<ul>\r\n    <li *ngFor=\"let todo of todos\">\r\n        {{todo.text}} \r\n        <!--<button class=\"btn btn-xs btn-primary\" (click)=\"updateTodo()\">Update</button>-->\r\n        <button class=\"btn btn-xs btn-danger\" (click)=\"deleteTodo(todo._id)\">Delete</button>\r\n    </li>\r\n</ul>"
 
 /***/ },
 
