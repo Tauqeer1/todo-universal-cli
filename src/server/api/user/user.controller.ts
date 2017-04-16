@@ -15,7 +15,7 @@ export function create(req, res) {
     User.findOne({ email: req.body.email })
         .exec((err, userObj) => {
             if (err) {
-                return res.json({ success: false, data: 'Contact support', error: err });
+                return res.json({ success: false, data: null, error: 'Contact support' });
             }
             else if (userObj == null) {
                 let pwHash = crypto.createHmac('sha1', config.salt).update(req.body.password).digest('hex');
@@ -26,14 +26,15 @@ export function create(req, res) {
                 };
                 User.create(user)
                     .then(user => {
-                        return res.json({ success: true, data: user, error: null });
+                        return res.json({ success: true, data: 'User created', error: null });
                     })
                     .catch(err => {
-                        return res.json({ success: false, data: 'Contact support', error: err });
+                        console.error('err', err);
+                        return res.json({ success: false, data: null, error: 'Contact support' });
                     });
             }
             else {
-                return res.json({ success: false, data: 'Email already exists', error: null });
+                return res.json({ success: false, data: 'User already exists', error: null });
             }
         });
 }
