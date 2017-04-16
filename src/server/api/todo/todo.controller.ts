@@ -1,8 +1,10 @@
 import Todo from './todo.model';
 import * as crypto from 'crypto';
-// Get all
+
+// Get all todos by user id
 export function index(req, res) {
-    Todo.find().sort('-date')
+    console.log('req.params.id', req.params.id);
+    Todo.find({ user_id: req.params.id }).sort('-date')
         .exec((err, todos) => {
             if (err) {
                 return res.json({ success: false, data: null, error: err });

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 import { TodoService } from '../services/todo.service';
 
 @Component({
@@ -9,11 +10,14 @@ import { TodoService } from '../services/todo.service';
 export class HomeComponent {
 
     todo: any = {};
+    user: any = {};
     todos: any = [];
     loading = false;
     error: boolean;
     errorMessage: string = ''
-    constructor(private todoService: TodoService) {
+    constructor(private todoService: TodoService, authService: AuthService) {
+        this.user = authService.userObject;
+        console.log('this.user', this.user);
         this.getAllTodos();
     }
     addTodo() {
@@ -21,7 +25,12 @@ export class HomeComponent {
         if (!this.todo) {
             return;
         }
-        this.todoService.addTodo(this.todo)
+        let todo = {
+            user_id: this.user.id,
+            text: this.todo.text
+        }
+        console.log('todo', todo);
+        this.todoService.addTodo(todo)
             .map(res => res.json())
             .subscribe(
             response => {
@@ -57,13 +66,15 @@ export class HomeComponent {
 
     getAllTodos() {
         console.log('get all todos');
-        this.todoService.getAllTodo()
-            .map(res => res.json())
-            .subscribe(response => {
-                console.log('response', response);
-                this.todos = response.data;
-            }, err => {
-                console.log('err', err);
-            })
+        if (this.user.id) {
+            this.todoService.getAllTodo(this.user.id)
+                .map(res => res.json())
+                .subscribe(response => {
+                    console.log('response', response);
+                    this.todos = response.data;
+                }, err => {
+                    console.log('err', err);
+                })
+        }
     }
 }

@@ -20,8 +20,8 @@ export class TodoService {
     deleteTodo(id: string) {
         return this.http.delete('/api/todos/'+ id);
     }
-    getAllTodo() {
-        return this.http.get('/api/todos');
+    getAllTodo(id: string) {
+        return this.http.get('/api/todos/' + id);
     }
 
 
