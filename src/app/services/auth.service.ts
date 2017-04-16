@@ -10,6 +10,7 @@ export class AuthService {
     constructor(private http: Http) {}
 
     public get userObject():any {
+        this.user = JSON.parse(localStorage.getItem('user'));
         return this.user;
     }
     public set userObject(user: any) {
@@ -19,13 +20,5 @@ export class AuthService {
     }
     login(email: string, password: string) {
         return this.http.post('/api/auth', { email: email, password: password });
-            /*.map((res: Response) => {
-                let user = res.json();
-                if(user && user.token) {
-                    localStorage.setItem('user', JSON.stringify(user));
-                    this.user = user;
-                    return user;
-                }
-            })*/
     }
 }
