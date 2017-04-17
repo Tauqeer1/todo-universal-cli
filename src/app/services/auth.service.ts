@@ -11,6 +11,7 @@ export class AuthService {
 
     public get userObject():any {
         this.user = JSON.parse(localStorage.getItem('user'));
+        
         return this.user;
     }
     public set userObject(user: any) {
